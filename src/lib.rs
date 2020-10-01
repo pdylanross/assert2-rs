@@ -1,6 +1,3 @@
-#![cfg_attr(feature = "doc-cfg", feature(doc_cfg))]
-#![allow(clippy::needless_lifetimes)]
-
 //! All-purpose [`assert!(...)`](macro.assert.html) and [`check!(...)`](macro.check.html) macros, inspired by [Catch2](https://github.com/catchorg/Catch2).
 //! There is also a [`debug_assert!(...)`](macro.debug_assert.html) macro that is disabled on optimized builds by default.
 //! As cherry on top there is a [`let_assert!(...)`](macro.let_assert.html) macro that lets you test a pattern while capturing parts of it.
@@ -146,6 +143,18 @@
 //!  * `CLICOLOR != 0`: ANSI colors are supported and should be used when the program isn't piped.
 //!  * `CLICOLOR == 0`: Don't output ANSI color escape codes.
 //!  * `CLICOLOR_FORCE != 0`: ANSI colors should be enabled no matter what.
+
+#![cfg_attr(feature = "doc-cfg", feature(doc_cfg))]
+#![allow(clippy::needless_lifetimes)]
+
+#[doc(hidden)]
+pub mod info;
+
+#[doc(hidden)]
+pub mod maybe_debug;
+
+#[doc(hidden)]
+pub mod print;
 
 #[doc(hidden)]
 pub use assert2_macros::check_impl;
@@ -301,15 +310,6 @@ macro_rules! stringify {
 		stringify!($($t)*)
 	};
 }
-
-#[doc(hidden)]
-pub mod maybe_debug;
-
-#[doc(hidden)]
-pub mod print;
-
-#[doc(hidden)]
-pub mod info;
 
 /// Scope guard to panic when a check!() fails.
 ///
